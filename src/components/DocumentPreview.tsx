@@ -92,40 +92,40 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
         <h3 className="font-bold text-[11pt]">I. REKAPITULASI KEHADIRAN APEL</h3>
 
         {/* Tabel Rekapitulasi */}
-        <table className="w-full border-collapse border border-black text-center text-[11pt]">
+        <table className="official-table w-full border-collapse text-center text-[11pt]" style={{ border: '1px solid black' }}>
           <thead>
             <tr className="font-bold">
-              <th rowSpan={2} className="border border-black px-2 py-1.5 align-middle w-[14%]">
+              <th rowSpan={2} className="px-2 py-1.5 align-middle w-[14%]" style={{ border: '1px solid black' }}>
                 Jumlah<br />ASN
               </th>
-              <th rowSpan={2} className="border border-black px-2 py-1.5 align-middle w-[13%]">
+              <th rowSpan={2} className="px-2 py-1.5 align-middle w-[13%]" style={{ border: '1px solid black' }}>
                 Hadir
               </th>
-              <th colSpan={4} className="border border-black px-2 py-1 align-middle">
+              <th colSpan={4} className="px-2 py-1 align-middle" style={{ border: '1px solid black' }}>
                 Tidak Hadir Karena:
               </th>
-              <th rowSpan={2} className="border border-black px-2 py-1.5 align-middle w-[26%]">
+              <th rowSpan={2} className="px-2 py-1.5 align-middle w-[26%]" style={{ border: '1px solid black' }}>
                 Keterangan
               </th>
             </tr>
             <tr className="font-bold">
-              <th className="border border-black px-1.5 py-1 w-[11%]">Sakit</th>
-              <th className="border border-black px-1.5 py-1 w-[11%]">Cuti</th>
-              <th className="border border-black px-1.5 py-1 w-[13%]">
+              <th className="px-1.5 py-1 w-[11%]" style={{ border: '1px solid black' }}>Sakit</th>
+              <th className="px-1.5 py-1 w-[11%]" style={{ border: '1px solid black' }}>Cuti</th>
+              <th className="px-1.5 py-1 w-[13%]" style={{ border: '1px solid black' }}>
                 Dinas<br />Luar
               </th>
-              <th className="border border-black px-1.5 py-1 w-[12%]">Lain-Lain</th>
+              <th className="px-1.5 py-1 w-[12%]" style={{ border: '1px solid black' }}>Lain-Lain</th>
             </tr>
           </thead>
           <tbody>
             <tr className="h-10 text-center font-medium">
-              <td className="border border-black px-2 py-1.5">{data.rekap.jumlahAsn}</td>
-              <td className="border border-black px-2 py-1.5">{data.rekap.hadir}</td>
-              <td className="border border-black px-2 py-1.5">{data.rekap.sakit}</td>
-              <td className="border border-black px-2 py-1.5">{data.rekap.cuti}</td>
-              <td className="border border-black px-2 py-1.5">{data.rekap.dinasLuar}</td>
-              <td className="border border-black px-2 py-1.5">{data.rekap.lainLain}</td>
-              <td className="border border-black px-2 py-1.5 uppercase font-medium text-[10pt] leading-tight">
+              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.jumlahAsn}</td>
+              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.hadir}</td>
+              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.sakit}</td>
+              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.cuti}</td>
+              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.dinasLuar}</td>
+              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.lainLain}</td>
+              <td className="px-2 py-1.5 uppercase font-medium text-[10pt] leading-tight" style={{ border: '1px solid black' }}>
                 {data.rekap.keterangan || '-'}
               </td>
             </tr>
@@ -137,14 +137,14 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
       <div className="space-y-1.5 pt-2">
         <h3 className="font-bold text-[11pt]">II. DAFTAR ASN YANG TIDAK HADIR APEL</h3>
 
-        <table className="w-full border-collapse border border-black text-[10.5pt]">
+        <table className="official-table w-full border-collapse text-[10.5pt]" style={{ border: '1px solid black' }}>
           <thead>
             <tr className="font-bold text-center">
-              <th className="border border-black px-2 py-1.5 w-[6%]">No</th>
-              <th className="border border-black px-2 py-1.5 w-[25%]">NIP</th>
-              <th className="border border-black px-2 py-1.5 w-[28%]">NAMA</th>
-              <th className="border border-black px-2 py-1.5 w-[19%]">JABATAN</th>
-              <th className="border border-black px-2 py-1.5 w-[22%]">
+              <th className="px-2 py-1.5 w-[6%]" style={{ border: '1px solid black' }}>No</th>
+              <th className="px-2 py-1.5 w-[25%]" style={{ border: '1px solid black' }}>NIP</th>
+              <th className="px-2 py-1.5 w-[28%]" style={{ border: '1px solid black' }}>NAMA</th>
+              <th className="px-2 py-1.5 w-[19%]" style={{ border: '1px solid black' }}>JABATAN</th>
+              <th className="px-2 py-1.5 w-[22%]" style={{ border: '1px solid black' }}>
                 ALASAN<br />KETIDAKHADIRAN
               </th>
             </tr>
@@ -152,24 +152,24 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
           <tbody>
             {data.daftarTidakHadir.length === 0 ? (
               <tr>
-                <td colSpan={5} className="border border-black px-3 py-3 text-center italic text-gray-500">
+                <td colSpan={5} className="px-3 py-3 text-center italic text-gray-500" style={{ border: '1px solid black' }}>
                   Nihil (Seluruh ASN hadir mengikuti apel)
                 </td>
               </tr>
             ) : (
               data.daftarTidakHadir.map((asn, idx) => (
                 <tr key={asn.id || idx} className="align-middle">
-                  <td className="border border-black px-1.5 py-1.5 text-center">{idx + 1}.</td>
-                  <td className="border border-black px-2 py-1.5 text-center font-mono text-[10pt]">
+                  <td className="px-1.5 py-1.5 text-center" style={{ border: '1px solid black' }}>{idx + 1}.</td>
+                  <td className="px-2 py-1.5 text-center font-mono text-[10pt]" style={{ border: '1px solid black' }}>
                     {asn.nip}
                   </td>
-                  <td className="border border-black px-2 py-1.5 font-medium uppercase text-[10pt] leading-snug">
+                  <td className="px-2 py-1.5 font-medium uppercase text-[10pt] leading-snug" style={{ border: '1px solid black' }}>
                     {asn.nama}
                   </td>
-                  <td className="border border-black px-2 py-1.5 uppercase text-[10pt] leading-snug">
+                  <td className="px-2 py-1.5 uppercase text-[10pt] leading-snug" style={{ border: '1px solid black' }}>
                     {asn.jabatan}
                   </td>
-                  <td className="border border-black px-2 py-1.5 uppercase text-center text-[10pt] leading-snug">
+                  <td className="px-2 py-1.5 uppercase text-center text-[10pt] leading-snug" style={{ border: '1px solid black' }}>
                     {asn.alasan}
                   </td>
                 </tr>

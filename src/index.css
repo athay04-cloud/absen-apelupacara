@@ -8,6 +8,20 @@
   }
 }
 
+/* Official Document Table Borders - Guarantees all vertical & horizontal dividers render at any zoom scale */
+.official-table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+  border: 1px solid #000000 !important;
+}
+
+.official-table th,
+.official-table td {
+  border: 1px solid #000000 !important;
+  box-sizing: border-box !important;
+}
+
 /* Print Optimization for Official A4 Documents */
 @media print {
   body {
