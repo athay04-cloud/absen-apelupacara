@@ -1,0 +1,6 @@
+{
+  "name": "Sistem Laporan & Notula Kedinasan",
+  "description": "Aplikasi pembuatan dan ekspor dokumen resmi kedinasan (Laporan Rekap Apel/Upacara dan Notula Rapat) ke format Word (.docx) dan PDF siap cetak.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

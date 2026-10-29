@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #f8fafc;
+    color: #1e293b;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+/* Print Optimization for Official A4 Documents */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide all UI elements, toolbars, sidebars, and form inputs */
+  header,
+  nav,
+  aside,
+  button,
+  .no-print,
+  #form-panel,
+  .print-hidden {
+    display: none !important;
+  }
+
+  /* Only display the printable document */
+  #preview-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+    display: block !important;
+  }
+
+  #printable-document {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 auto !important;
+    padding: 25mm 20mm 20mm 25mm !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    page-break-after: auto;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .page-break-before-always {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+}
