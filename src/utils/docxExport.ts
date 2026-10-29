@@ -515,115 +515,184 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
   const defaultPenutup = `Demikian laporan kehadiran ASN ${data.pokja || 'POKJA SDM'} pada ${data.jenisApel || 'Apel Pagi'} hari ${getDayNameIndo(data.tanggal)}, tanggal ${formatIndonesianDate(data.tanggal, false)} ini kami susun dengan sebenar-benarnya sebagai bentuk pertanggungjawaban atas pelaksanaan kegiatan. Laporan ini dibuat sebelum pukul ${data.jamBatasLaporan || '10.00 pagi'} sesuai dengan ketentuan yang berlaku. Atas perhatian dan kerja sama yang baik, kami ucapkan terima kasih.`;
   const penutupText = data.kalimatPenutup.trim() ? data.kalimatPenutup : defaultPenutup;
 
-  // Signature Table (2 Columns, borderless)
-  const sigRowLeftChildren: (Paragraph | Table)[] = [
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.pejabatMengetahui.jabatan || 'Mengetahui,',
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-  ];
+  // Signature Table (2 Columns, Multi-row for perfect horizontal alignment)
+  const cellLeftProps = {
+    width: { size: 55, type: WidthType.PERCENTAGE },
+    borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
+  };
+  const cellRightProps = {
+    width: { size: 45, type: WidthType.PERCENTAGE },
+    borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
+  };
 
-  if (sigMengetahuiBytes) {
-    sigRowLeftChildren.push(
-      new Paragraph({
+  const sigRow1 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellLeftProps,
         children: [
-          new ImageRun({
-            data: sigMengetahuiBytes.bytes,
-            transformation: {
-              width: 140,
-              height: 55,
-            },
-            type: 'png',
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.pejabatMengetahui.jabatan || 'Mengetahui,',
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
           }),
         ],
-      })
-    );
-  } else {
-    // Empty spacing for manual sign
-    sigRowLeftChildren.push(new Paragraph({ spacing: { before: 800 } }));
-  }
-
-  sigRowLeftChildren.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.pejabatMengetahui.nama,
-          bold: true,
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: `NIP. ${data.pejabatMengetahui.nip}`,
-          font: 'Arial', size: 22,
-        }),
-      ],
-    })
-  );
-
-  const sigRowRightChildren: (Paragraph | Table)[] = [
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: formatSignatureDate(data.kotaTtd, data.tanggal),
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.petugasPembuat.jabatan || 'Pembuat Laporan,',
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-  ];
-
-  if (sigPembuatBytes) {
-    sigRowRightChildren.push(
-      new Paragraph({
+      }),
+      new TableCell({
+        ...cellRightProps,
         children: [
-          new ImageRun({
-            data: sigPembuatBytes.bytes,
-            transformation: {
-              width: 140,
-              height: 55,
-            },
-            type: 'png',
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: formatSignatureDate(data.kotaTtd, data.tanggal),
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
           }),
         ],
-      })
-    );
-  } else {
-    sigRowRightChildren.push(new Paragraph({ spacing: { before: 800 } }));
-  }
+      }),
+    ],
+  });
 
-  sigRowRightChildren.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.petugasPembuat.nama,
-          bold: true,
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: `NIP. ${data.petugasPembuat.nip}`,
-          font: 'Arial', size: 22,
-        }),
-      ],
-    })
-  );
+  const sigRow2 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellLeftProps,
+        children: [new Paragraph({ children: [new TextRun({ text: '', font: 'Arial', size: 22 })] })],
+      }),
+      new TableCell({
+        ...cellRightProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.petugasPembuat.jabatan || 'Pembuat Laporan,',
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+
+  const sigRow3 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellLeftProps,
+        children: sigMengetahuiBytes
+          ? [
+              new Paragraph({
+                children: [
+                  new ImageRun({
+                    data: sigMengetahuiBytes.bytes,
+                    transformation: {
+                      width: 140,
+                      height: 55,
+                    },
+                    type: 'png',
+                  }),
+                ],
+              }),
+            ]
+          : [new Paragraph({ spacing: { before: 800 } })],
+      }),
+      new TableCell({
+        ...cellRightProps,
+        children: sigPembuatBytes
+          ? [
+              new Paragraph({
+                children: [
+                  new ImageRun({
+                    data: sigPembuatBytes.bytes,
+                    transformation: {
+                      width: 140,
+                      height: 55,
+                    },
+                    type: 'png',
+                  }),
+                ],
+              }),
+            ]
+          : [new Paragraph({ spacing: { before: 800 } })],
+      }),
+    ],
+  });
+
+  const sigRow4 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellLeftProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.pejabatMengetahui.nama,
+                bold: true,
+                underline: {},
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+      new TableCell({
+        ...cellRightProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.petugasPembuat.nama,
+                bold: true,
+                underline: {},
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+
+  const sigRow5 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellLeftProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `NIP. ${data.pejabatMengetahui.nip}`,
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+      new TableCell({
+        ...cellRightProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `NIP. ${data.petugasPembuat.nip}`,
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
 
   const tableSignature = new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
@@ -635,22 +704,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       insideHorizontal: borderNone,
       insideVertical: borderNone,
     },
-    rows: [
-      new TableRow({
-        children: [
-          new TableCell({
-            width: { size: 55, type: WidthType.PERCENTAGE },
-            borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
-            children: sigRowLeftChildren,
-          }),
-          new TableCell({
-            width: { size: 45, type: WidthType.PERCENTAGE },
-            borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
-            children: sigRowRightChildren,
-          }),
-        ],
-      }),
-    ],
+    rows: [sigRow1, sigRow2, sigRow3, sigRow4, sigRow5],
   });
 
   // Section Children
@@ -1013,90 +1067,178 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
     ),
   });
 
-  // Tanda Tangan Table
-  const sigRowLeftChildren: Paragraph[] = [
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.pimpinanRapat.jabatan || 'Pimpinan Rapat,',
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-  ];
-  if (sigPimpinanBytes) {
-    sigRowLeftChildren.push(
-      new Paragraph({
-        children: [
-          new ImageRun({
-            data: sigPimpinanBytes.bytes,
-            transformation: { width: 140, height: 55 },
-            type: 'png',
-          }),
-        ],
-      })
-    );
-  } else {
-    sigRowLeftChildren.push(new Paragraph({ spacing: { before: 800 } }));
-  }
-  sigRowLeftChildren.push(
-    new Paragraph({
-      children: [
-        new TextRun({ text: data.pimpinanRapat.nama, bold: true, font: 'Arial', size: 22 }),
-      ],
-    }),
-    new Paragraph({
-      children: [
-        new TextRun({ text: `NIP. ${data.pimpinanRapat.nip}`, font: 'Arial', size: 22 }),
-      ],
-    })
-  );
+  // Tanda Tangan Table (Multi-row for perfect horizontal alignment)
+  const cellNotulaLeftProps = {
+    width: { size: 55, type: WidthType.PERCENTAGE },
+    borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
+  };
+  const cellNotulaRightProps = {
+    width: { size: 45, type: WidthType.PERCENTAGE },
+    borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
+  };
 
-  const sigRowRightChildren: Paragraph[] = [
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: formatSignatureDate(data.kotaTtd, data.tanggal),
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.notulis.jabatan || 'Notulis,',
-          font: 'Arial', size: 22,
-        }),
-      ],
-    }),
-  ];
-  if (sigNotulisBytes) {
-    sigRowRightChildren.push(
-      new Paragraph({
+  const sigNotulaRow1 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellNotulaLeftProps,
         children: [
-          new ImageRun({
-            data: sigNotulisBytes.bytes,
-            transformation: { width: 140, height: 55 },
-            type: 'png',
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.pimpinanRapat.jabatan || 'Pimpinan Rapat,',
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
           }),
         ],
-      })
-    );
-  } else {
-    sigRowRightChildren.push(new Paragraph({ spacing: { before: 800 } }));
-  }
-  sigRowRightChildren.push(
-    new Paragraph({
-      children: [
-        new TextRun({ text: data.notulis.nama, bold: true, font: 'Arial', size: 22 }),
-      ],
-    }),
-    new Paragraph({
-      children: [
-        new TextRun({ text: `NIP. ${data.notulis.nip}`, font: 'Arial', size: 22 }),
-      ],
-    })
-  );
+      }),
+      new TableCell({
+        ...cellNotulaRightProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: formatSignatureDate(data.kotaTtd, data.tanggal),
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+
+  const sigNotulaRow2 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellNotulaLeftProps,
+        children: [new Paragraph({ children: [new TextRun({ text: '', font: 'Arial', size: 22 })] })],
+      }),
+      new TableCell({
+        ...cellNotulaRightProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.notulis.jabatan || 'Notulis,',
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+
+  const sigNotulaRow3 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellNotulaLeftProps,
+        children: sigPimpinanBytes
+          ? [
+              new Paragraph({
+                children: [
+                  new ImageRun({
+                    data: sigPimpinanBytes.bytes,
+                    transformation: { width: 140, height: 55 },
+                    type: 'png',
+                  }),
+                ],
+              }),
+            ]
+          : [new Paragraph({ spacing: { before: 800 } })],
+      }),
+      new TableCell({
+        ...cellNotulaRightProps,
+        children: sigNotulisBytes
+          ? [
+              new Paragraph({
+                children: [
+                  new ImageRun({
+                    data: sigNotulisBytes.bytes,
+                    transformation: { width: 140, height: 55 },
+                    type: 'png',
+                  }),
+                ],
+              }),
+            ]
+          : [new Paragraph({ spacing: { before: 800 } })],
+      }),
+    ],
+  });
+
+  const sigNotulaRow4 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellNotulaLeftProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.pimpinanRapat.nama,
+                bold: true,
+                underline: {},
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+      new TableCell({
+        ...cellNotulaRightProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: data.notulis.nama,
+                bold: true,
+                underline: {},
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+
+  const sigNotulaRow5 = new TableRow({
+    children: [
+      new TableCell({
+        ...cellNotulaLeftProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `NIP. ${data.pimpinanRapat.nip}`,
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+      new TableCell({
+        ...cellNotulaRightProps,
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `NIP. ${data.notulis.nip}`,
+                font: 'Arial',
+                size: 22,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
 
   const tableSignature = new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
@@ -1108,22 +1250,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
       insideHorizontal: borderNone,
       insideVertical: borderNone,
     },
-    rows: [
-      new TableRow({
-        children: [
-          new TableCell({
-            width: { size: 55, type: WidthType.PERCENTAGE },
-            borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
-            children: sigRowLeftChildren,
-          }),
-          new TableCell({
-            width: { size: 45, type: WidthType.PERCENTAGE },
-            borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
-            children: sigRowRightChildren,
-          }),
-        ],
-      }),
-    ],
+    rows: [sigNotulaRow1, sigNotulaRow2, sigNotulaRow3, sigNotulaRow4, sigNotulaRow5],
   });
 
   const docChildren: (Paragraph | Table)[] = [

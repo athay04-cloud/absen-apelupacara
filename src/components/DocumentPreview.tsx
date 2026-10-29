@@ -187,15 +187,37 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
       </div>
 
       {/* Bagian Tanda Tangan 2 Kolom (Borderless) */}
+      {/* Bagian Tanda Tangan 2 Kolom (Borderless & Sejajar Sempurna) */}
       <div className="pt-4 page-break-inside-avoid">
-        <table className="w-full border-collapse border-none text-[11pt]">
+        <table className="w-full border-collapse border-none text-[11pt]" style={{ border: 'none' }}>
           <tbody>
-            <tr className="align-top">
-              {/* Kolom Kiri: Mengetahui / Pimpinan */}
-              <td className="w-1/2 pr-4 border-none">
+            {/* Baris 1: Header Jabatan Kiri vs Tempat/Tanggal Kanan */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-bottom pb-0.5">
                 <p className="font-normal">{data.pejabatMengetahui.jabatan || 'Mengetahui,'}</p>
-                {/* Signature Preview */}
-                <div className="h-18 flex items-center my-1">
+              </td>
+              <td className="w-1/2 pl-4 border-none align-bottom pb-0.5">
+                <p className="font-normal">
+                  {formatSignatureDate(data.kotaTtd, data.tanggal)}
+                </p>
+              </td>
+            </tr>
+
+            {/* Baris 2: Sub-jabatan Pembuat Laporan (Sejajar) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-top pb-1">
+                {/* Spacing sejajar dengan jabatan kanan */}
+                <p className="font-normal select-none opacity-0 leading-tight">Mengetahui</p>
+              </td>
+              <td className="w-1/2 pl-4 border-none align-top pb-1">
+                <p className="font-normal leading-tight">{data.petugasPembuat.jabatan || 'Pembuat Laporan,'}</p>
+              </td>
+            </tr>
+
+            {/* Baris 3: Area Tanda Tangan (Tinggi sama persis & Sejajar Sempurna) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-middle py-1">
+                <div className="h-16 flex items-center">
                   {data.pejabatMengetahui.signatureImage ? (
                     <img
                       src={data.pejabatMengetahui.signatureImage}
@@ -206,22 +228,9 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
                     <div className="h-16"></div>
                   )}
                 </div>
-                <p className="font-bold underline leading-tight">
-                  {data.pejabatMengetahui.nama}
-                </p>
-                <p className="text-[10.5pt] text-gray-900 mt-0.5">
-                  NIP. {data.pejabatMengetahui.nip}
-                </p>
               </td>
-
-              {/* Kolom Kanan: Tempat, Tanggal & Petugas */}
-              <td className="w-1/2 pl-4 border-none">
-                <p className="font-normal">
-                  {formatSignatureDate(data.kotaTtd, data.tanggal)}
-                </p>
-                <p className="font-normal">{data.petugasPembuat.jabatan || 'Pembuat Laporan,'}</p>
-                {/* Signature Preview */}
-                <div className="h-18 flex items-center my-1">
+              <td className="w-1/2 pl-4 border-none align-middle py-1">
+                <div className="h-16 flex items-center">
                   {data.petugasPembuat.signatureImage ? (
                     <img
                       src={data.petugasPembuat.signatureImage}
@@ -232,10 +241,32 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
                     <div className="h-16"></div>
                   )}
                 </div>
+              </td>
+            </tr>
+
+            {/* Baris 4: Nama Penandatangan (Sejajar Horizontal pada Garis yang Sama) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-top pt-0.5">
+                <p className="font-bold underline leading-tight">
+                  {data.pejabatMengetahui.nama}
+                </p>
+              </td>
+              <td className="w-1/2 pl-4 border-none align-top pt-0.5">
                 <p className="font-bold underline leading-tight">
                   {data.petugasPembuat.nama}
                 </p>
-                <p className="text-[10pt] text-gray-900 mt-0.5">
+              </td>
+            </tr>
+
+            {/* Baris 5: NIP (Sejajar Horizontal pada Garis yang Sama) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-top pt-0.5">
+                <p className="text-[10.5pt] text-gray-900 leading-tight">
+                  NIP. {data.pejabatMengetahui.nip}
+                </p>
+              </td>
+              <td className="w-1/2 pl-4 border-none align-top pt-0.5">
+                <p className="text-[10.5pt] text-gray-900 leading-tight">
                   NIP. {data.petugasPembuat.nip}
                 </p>
               </td>
@@ -386,15 +417,36 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
         )}
       </div>
 
-      {/* Tanda Tangan 2 Kolom */}
+      {/* Tanda Tangan 2 Kolom (Sejajar Sempurna) */}
       <div className="pt-6 page-break-inside-avoid">
-        <table className="w-full border-collapse border-none text-[10.5pt]">
+        <table className="w-full border-collapse border-none text-[11pt]" style={{ border: 'none' }}>
           <tbody>
-            <tr className="align-top">
-              {/* Pimpinan Rapat */}
-              <td className="w-1/2 pr-4 border-none">
+            {/* Baris 1: Header Jabatan Kiri vs Tempat/Tanggal Kanan */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-bottom pb-0.5">
                 <p className="font-normal">{data.pimpinanRapat.jabatan || 'Pimpinan Rapat,'}</p>
-                <div className="h-18 flex items-center my-1">
+              </td>
+              <td className="w-1/2 pl-4 border-none align-bottom pb-0.5">
+                <p className="font-normal">
+                  {formatSignatureDate(data.kotaTtd, data.tanggal)}
+                </p>
+              </td>
+            </tr>
+
+            {/* Baris 2: Sub-jabatan Notulis (Sejajar) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-top pb-1">
+                <p className="font-normal select-none opacity-0 leading-tight">Pimpinan Rapat</p>
+              </td>
+              <td className="w-1/2 pl-4 border-none align-top pb-1">
+                <p className="font-normal leading-tight">{data.notulis.jabatan || 'Notulis Rapat,'}</p>
+              </td>
+            </tr>
+
+            {/* Baris 3: Area Tanda Tangan (Tinggi sama persis & Sejajar) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-middle py-1">
+                <div className="h-16 flex items-center">
                   {data.pimpinanRapat.signatureImage ? (
                     <img
                       src={data.pimpinanRapat.signatureImage}
@@ -405,21 +457,9 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
                     <div className="h-16"></div>
                   )}
                 </div>
-                <p className="font-bold underline leading-tight">
-                  {data.pimpinanRapat.nama}
-                </p>
-                <p className="text-[10pt] text-gray-900 mt-0.5">
-                  NIP. {data.pimpinanRapat.nip}
-                </p>
               </td>
-
-              {/* Notulis */}
-              <td className="w-1/2 pl-4 border-none">
-                <p className="font-normal">
-                  {formatSignatureDate(data.kotaTtd, data.tanggal)}
-                </p>
-                <p className="font-normal">{data.notulis.jabatan || 'Notulis Rapat,'}</p>
-                <div className="h-18 flex items-center my-1">
+              <td className="w-1/2 pl-4 border-none align-middle py-1">
+                <div className="h-16 flex items-center">
                   {data.notulis.signatureImage ? (
                     <img
                       src={data.notulis.signatureImage}
@@ -430,10 +470,32 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
                     <div className="h-16"></div>
                   )}
                 </div>
+              </td>
+            </tr>
+
+            {/* Baris 4: Nama Penandatangan (Sejajar Horizontal) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-top pt-0.5">
+                <p className="font-bold underline leading-tight">
+                  {data.pimpinanRapat.nama}
+                </p>
+              </td>
+              <td className="w-1/2 pl-4 border-none align-top pt-0.5">
                 <p className="font-bold underline leading-tight">
                   {data.notulis.nama}
                 </p>
-                <p className="text-[10pt] text-gray-900 mt-0.5">
+              </td>
+            </tr>
+
+            {/* Baris 5: NIP (Sejajar Horizontal) */}
+            <tr>
+              <td className="w-1/2 pr-4 border-none align-top pt-0.5">
+                <p className="text-[10.5pt] text-gray-900 leading-tight">
+                  NIP. {data.pimpinanRapat.nip}
+                </p>
+              </td>
+              <td className="w-1/2 pl-4 border-none align-top pt-0.5">
+                <p className="text-[10.5pt] text-gray-900 leading-tight">
                   NIP. {data.notulis.nip}
                 </p>
               </td>
