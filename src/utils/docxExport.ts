@@ -138,11 +138,11 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'Jumlah', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'Jumlah', bold: true, font: 'Arial', size: 22 })],
           }),
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'ASN', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'ASN', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -155,7 +155,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'Hadir', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'Hadir', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -171,7 +171,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'Tidak Hadir Karena:', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'Tidak Hadir Karena:', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -184,7 +184,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'Keterangan', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'Keterangan', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -201,7 +201,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'Sakit', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'Sakit', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -213,7 +213,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'Cuti', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'Cuti', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -226,13 +226,13 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
           new Paragraph({
             alignment: AlignmentType.CENTER,
             children: [
-              new TextRun({ text: 'Dinas', bold: true, font: 'Arial', size: 20 }),
+              new TextRun({ text: 'Dinas', bold: true, font: 'Arial', size: 22 }),
             ],
           }),
           new Paragraph({
             alignment: AlignmentType.CENTER,
             children: [
-              new TextRun({ text: 'Luar', bold: true, font: 'Arial', size: 20 }),
+              new TextRun({ text: 'Luar', bold: true, font: 'Arial', size: 22 }),
             ],
           }),
         ],
@@ -245,7 +245,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'Lain-Lain', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'Lain-Lain', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -261,7 +261,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: String(data.rekap.jumlahAsn), font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: String(data.rekap.jumlahAsn), font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -272,7 +272,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: String(data.rekap.hadir), font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: String(data.rekap.hadir), font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -283,7 +283,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: String(data.rekap.sakit), font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: String(data.rekap.sakit), font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -294,7 +294,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: String(data.rekap.cuti), font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: String(data.rekap.cuti), font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -305,7 +305,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: String(data.rekap.dinasLuar), font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: String(data.rekap.dinasLuar), font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -316,7 +316,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: String(data.rekap.lainLain), font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: String(data.rekap.lainLain), font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -327,7 +327,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: data.rekap.keterangan || '-', font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: data.rekap.keterangan || '-', font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -353,7 +353,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'No', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'No', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -365,7 +365,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'NIP', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'NIP', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -377,7 +377,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'NAMA', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'NAMA', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -389,7 +389,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: 'JABATAN', bold: true, font: 'Arial', size: 20 })],
+            children: [new TextRun({ text: 'JABATAN', bold: true, font: 'Arial', size: 22 })],
           }),
         ],
       }),
@@ -402,13 +402,13 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
           new Paragraph({
             alignment: AlignmentType.CENTER,
             children: [
-              new TextRun({ text: 'ALASAN', bold: true, font: 'Arial', size: 20 }),
+              new TextRun({ text: 'ALASAN', bold: true, font: 'Arial', size: 22 }),
             ],
           }),
           new Paragraph({
             alignment: AlignmentType.CENTER,
             children: [
-              new TextRun({ text: 'KETIDAKHADIRAN', bold: true, font: 'Arial', size: 20 }),
+              new TextRun({ text: 'KETIDAKHADIRAN', bold: true, font: 'Arial', size: 22 }),
             ],
           }),
         ],
@@ -433,8 +433,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
                   new TextRun({
                     text: 'Nihil (Seluruh ASN Hadir Mengikuti Apel)',
                     italics: true,
-                    font: 'Arial',
-                    size: 20,
+                    font: 'Arial', size: 22,
                   }),
                 ],
               }),
@@ -455,7 +454,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
               children: [
                 new Paragraph({
                   alignment: AlignmentType.CENTER,
-                  children: [new TextRun({ text: `${idx + 1}.`, font: 'Arial', size: 20 })],
+                  children: [new TextRun({ text: `${idx + 1}.`, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -466,7 +465,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
               children: [
                 new Paragraph({
                   alignment: AlignmentType.CENTER,
-                  children: [new TextRun({ text: asn.nip, font: 'Arial', size: 19 })],
+                  children: [new TextRun({ text: asn.nip, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -476,7 +475,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
               verticalAlign: VerticalAlign.CENTER,
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: asn.nama, font: 'Arial', size: 19 })],
+                  children: [new TextRun({ text: asn.nama, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -486,7 +485,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
               verticalAlign: VerticalAlign.CENTER,
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: asn.jabatan, font: 'Arial', size: 19 })],
+                  children: [new TextRun({ text: asn.jabatan, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -497,7 +496,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
               children: [
                 new Paragraph({
                   alignment: AlignmentType.CENTER,
-                  children: [new TextRun({ text: asn.alasan, font: 'Arial', size: 19 })],
+                  children: [new TextRun({ text: asn.alasan, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -522,8 +521,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       children: [
         new TextRun({
           text: data.pejabatMengetahui.jabatan || 'Mengetahui,',
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -555,8 +553,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         new TextRun({
           text: data.pejabatMengetahui.nama,
           bold: true,
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -564,8 +561,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       children: [
         new TextRun({
           text: `NIP. ${data.pejabatMengetahui.nip}`,
-          font: 'Arial',
-          size: 20,
+          font: 'Arial', size: 22,
         }),
       ],
     })
@@ -576,8 +572,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       children: [
         new TextRun({
           text: formatSignatureDate(data.kotaTtd, data.tanggal),
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -585,8 +580,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       children: [
         new TextRun({
           text: data.petugasPembuat.jabatan || 'Pembuat Laporan,',
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -617,8 +611,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
         new TextRun({
           text: data.petugasPembuat.nama,
           bold: true,
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -626,8 +619,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       children: [
         new TextRun({
           text: `NIP. ${data.petugasPembuat.nip}`,
-          font: 'Arial',
-          size: 20,
+          font: 'Arial', size: 22,
         }),
       ],
     })
@@ -746,8 +738,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       children: [
         new TextRun({
           text: penutupText,
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -797,8 +788,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
             new TextRun({
               text: foto.caption || 'Dokumentasi Pelaksanaan Kegiatan',
               italics: true,
-              font: 'Arial',
-              size: 19,
+              font: 'Arial', size: 22,
             }),
           ],
         })
@@ -808,6 +798,16 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
 
   // Build full Document
   const doc = new Document({
+    styles: {
+      default: {
+        document: {
+          run: {
+            font: 'Arial',
+            size: 22, // 11 pt
+          },
+        },
+      },
+    },
     sections: [
       {
         properties: {
@@ -986,7 +986,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
               borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: m.label, bold: true, font: 'Arial', size: 21 })],
+                  children: [new TextRun({ text: m.label, bold: true, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -995,7 +995,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
               borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: ':', bold: true, font: 'Arial', size: 21 })],
+                  children: [new TextRun({ text: ':', bold: true, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -1004,7 +1004,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
               borders: { top: borderNone, bottom: borderNone, left: borderNone, right: borderNone },
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: m.val, font: 'Arial', size: 21 })],
+                  children: [new TextRun({ text: m.val, font: 'Arial', size: 22 })],
                 }),
               ],
             }),
@@ -1019,8 +1019,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
       children: [
         new TextRun({
           text: data.pimpinanRapat.jabatan || 'Pimpinan Rapat,',
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -1043,12 +1042,12 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
   sigRowLeftChildren.push(
     new Paragraph({
       children: [
-        new TextRun({ text: data.pimpinanRapat.nama, bold: true, font: 'Arial', size: 21 }),
+        new TextRun({ text: data.pimpinanRapat.nama, bold: true, font: 'Arial', size: 22 }),
       ],
     }),
     new Paragraph({
       children: [
-        new TextRun({ text: `NIP. ${data.pimpinanRapat.nip}`, font: 'Arial', size: 20 }),
+        new TextRun({ text: `NIP. ${data.pimpinanRapat.nip}`, font: 'Arial', size: 22 }),
       ],
     })
   );
@@ -1058,8 +1057,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
       children: [
         new TextRun({
           text: formatSignatureDate(data.kotaTtd, data.tanggal),
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -1067,8 +1065,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
       children: [
         new TextRun({
           text: data.notulis.jabatan || 'Notulis,',
-          font: 'Arial',
-          size: 21,
+          font: 'Arial', size: 22,
         }),
       ],
     }),
@@ -1091,12 +1088,12 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
   sigRowRightChildren.push(
     new Paragraph({
       children: [
-        new TextRun({ text: data.notulis.nama, bold: true, font: 'Arial', size: 21 }),
+        new TextRun({ text: data.notulis.nama, bold: true, font: 'Arial', size: 22 }),
       ],
     }),
     new Paragraph({
       children: [
-        new TextRun({ text: `NIP. ${data.notulis.nip}`, font: 'Arial', size: 20 }),
+        new TextRun({ text: `NIP. ${data.notulis.nip}`, font: 'Arial', size: 22 }),
       ],
     })
   );
@@ -1186,7 +1183,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
     docChildren.push(
       new Paragraph({
         spacing: { before: 140, after: 60 },
-        children: [new TextRun({ text: title, bold: true, font: 'Arial', size: 21 })],
+        children: [new TextRun({ text: title, bold: true, font: 'Arial', size: 22 })],
       })
     );
     const lines = content.split('\n');
@@ -1196,7 +1193,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
           alignment: AlignmentType.JUSTIFIED,
           indent: { firstLine: 360 },
           spacing: { line: 280, after: 80 },
-          children: [new TextRun({ text: line, font: 'Arial', size: 21 })],
+          children: [new TextRun({ text: line, font: 'Arial', size: 22 })],
         })
       );
     });
@@ -1251,8 +1248,7 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
             new TextRun({
               text: foto.caption || 'Dokumentasi Rapat',
               italics: true,
-              font: 'Arial',
-              size: 19,
+              font: 'Arial', size: 22,
             }),
           ],
         })
@@ -1261,6 +1257,16 @@ export async function exportNotulaRapatToDocx(data: NotulaRapatData) {
   }
 
   const doc = new Document({
+    styles: {
+      default: {
+        document: {
+          run: {
+            font: 'Arial',
+            size: 22, // 11 pt
+          },
+        },
+      },
+    },
     sections: [
       {
         properties: {

@@ -32,14 +32,15 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
       {/* A4 Paper Container */}
       <div
         id="printable-document"
-        className="bg-white text-black shadow-2xl mx-auto font-sans print:shadow-none print:m-0"
+        className="bg-white text-black shadow-2xl mx-auto print:shadow-none print:m-0"
         style={{
           width: '210mm',
           minHeight: '297mm',
           padding: '25mm 20mm 20mm 25mm', // Margins: Top 2.5cm, Right 2.0cm, Bottom 2.0cm, Left 2.5cm
           boxSizing: 'border-box',
+          fontFamily: 'Arial, Helvetica, sans-serif',
           fontSize: '11pt',
-          lineHeight: '1.4',
+          lineHeight: '1.35',
         }}
       >
         {mode === 'apel' ? (
@@ -91,7 +92,7 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
         <h3 className="font-bold text-[11pt]">I. REKAPITULASI KEHADIRAN APEL</h3>
 
         {/* Tabel Rekapitulasi */}
-        <table className="w-full border-collapse border border-black text-center text-[10.5pt]">
+        <table className="w-full border-collapse border border-black text-center text-[11pt]">
           <thead>
             <tr className="font-bold">
               <th rowSpan={2} className="border border-black px-2 py-1.5 align-middle w-[14%]">
@@ -124,7 +125,7 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
               <td className="border border-black px-2 py-1.5">{data.rekap.cuti}</td>
               <td className="border border-black px-2 py-1.5">{data.rekap.dinasLuar}</td>
               <td className="border border-black px-2 py-1.5">{data.rekap.lainLain}</td>
-              <td className="border border-black px-2 py-1.5 uppercase font-medium text-[9.5pt] leading-tight">
+              <td className="border border-black px-2 py-1.5 uppercase font-medium text-[10pt] leading-tight">
                 {data.rekap.keterangan || '-'}
               </td>
             </tr>
@@ -136,7 +137,7 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
       <div className="space-y-1.5 pt-2">
         <h3 className="font-bold text-[11pt]">II. DAFTAR ASN YANG TIDAK HADIR APEL</h3>
 
-        <table className="w-full border-collapse border border-black text-[10pt]">
+        <table className="w-full border-collapse border border-black text-[10.5pt]">
           <thead>
             <tr className="font-bold text-center">
               <th className="border border-black px-2 py-1.5 w-[6%]">No</th>
@@ -159,16 +160,16 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
               data.daftarTidakHadir.map((asn, idx) => (
                 <tr key={asn.id || idx} className="align-middle">
                   <td className="border border-black px-1.5 py-1.5 text-center">{idx + 1}.</td>
-                  <td className="border border-black px-2 py-1.5 text-center font-mono text-[9pt]">
+                  <td className="border border-black px-2 py-1.5 text-center font-mono text-[10pt]">
                     {asn.nip}
                   </td>
-                  <td className="border border-black px-2 py-1.5 font-medium uppercase text-[9pt] leading-snug">
+                  <td className="border border-black px-2 py-1.5 font-medium uppercase text-[10pt] leading-snug">
                     {asn.nama}
                   </td>
-                  <td className="border border-black px-2 py-1.5 uppercase text-[9pt] leading-snug">
+                  <td className="border border-black px-2 py-1.5 uppercase text-[10pt] leading-snug">
                     {asn.jabatan}
                   </td>
-                  <td className="border border-black px-2 py-1.5 uppercase text-center text-[9pt] leading-snug">
+                  <td className="border border-black px-2 py-1.5 uppercase text-center text-[10pt] leading-snug">
                     {asn.alasan}
                   </td>
                 </tr>
@@ -180,14 +181,14 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
 
       {/* Kalimat Penutup */}
       <div className="pt-2">
-        <p className="text-justify text-[10.5pt] indent-8 leading-relaxed font-normal">
+        <p className="text-justify text-[11pt] indent-8 leading-relaxed font-normal">
           {penutupText}
         </p>
       </div>
 
       {/* Bagian Tanda Tangan 2 Kolom (Borderless) */}
       <div className="pt-4 page-break-inside-avoid">
-        <table className="w-full border-collapse border-none text-[10.5pt]">
+        <table className="w-full border-collapse border-none text-[11pt]">
           <tbody>
             <tr className="align-top">
               {/* Kolom Kiri: Mengetahui / Pimpinan */}
@@ -208,7 +209,7 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
                 <p className="font-bold underline leading-tight">
                   {data.pejabatMengetahui.nama}
                 </p>
-                <p className="text-[10pt] text-gray-900 mt-0.5">
+                <p className="text-[10.5pt] text-gray-900 mt-0.5">
                   NIP. {data.pejabatMengetahui.nip}
                 </p>
               </td>
