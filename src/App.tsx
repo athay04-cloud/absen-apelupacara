@@ -239,7 +239,7 @@ export default function App() {
       </div>
 
       {/* Main Workspace Layout */}
-      <main className="max-w-[1600px] w-full mx-auto p-4 sm:p-6 flex-1 flex flex-col lg:flex-row gap-6 items-start">
+      <main className="print-reset max-w-[1600px] w-full mx-auto p-4 sm:p-6 flex-1 flex flex-col lg:flex-row gap-6 items-start">
         {/* Left Column: Form Editor Panel */}
         <section
           id="form-panel"
@@ -265,7 +265,7 @@ export default function App() {
         {/* Right Column: Live A4 Document Preview Panel */}
         <section
           id="preview-container"
-          className={`w-full lg:w-[52%] xl:w-[55%] sticky top-24 ${
+          className={`print-reset w-full lg:w-[52%] xl:w-[55%] sticky top-24 ${
             mobileTab === 'form' ? 'hidden lg:block' : 'block'
           }`}
         >
@@ -310,7 +310,10 @@ export default function App() {
           </div>
 
           {/* Scrollable Canvas Area */}
-          <div className="bg-slate-300/80 rounded-b-xl p-4 sm:p-6 overflow-auto max-h-[calc(100vh-140px)] flex justify-center border border-slate-300 shadow-inner">
+          <div
+            id="preview-scroll-wrapper"
+            className="print-reset bg-slate-300/80 rounded-b-xl p-4 sm:p-6 overflow-auto max-h-[calc(100vh-140px)] flex justify-center border border-slate-300 shadow-inner"
+          >
             <DocumentPreview
               mode={mode}
               apelData={apelData}

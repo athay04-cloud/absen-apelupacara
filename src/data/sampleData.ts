@@ -1,20 +1,26 @@
 import { LaporanApelData, NotulaRapatData } from '../types';
 import { getTodayIso } from '../utils/dateHelper';
 
-// Vector inline data URLs for realistic official signatures
-export const SAMPLE_SIGNATURE_MENGETAHUI = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="70" viewBox="0 0 160 70"><path d="M20,45 C25,25 35,15 42,35 C48,50 35,55 30,35 C28,25 35,20 48,22 C60,25 50,45 65,40 C75,35 85,25 95,30 C98,32 88,48 78,50 C70,52 92,30 115,28 C125,28 135,32 145,35" fill="none" stroke="%23111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+// Vector inline data URLs for realistic official signatures ( matching attached PDF )
+const svgMengetahuiRaw = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="75" viewBox="0 0 160 75"><path d="M22,22 C20,40 20,58 23,66 M15,28 C25,18 35,25 32,45 C30,55 36,30 42,26 C46,24 44,50 47,52 C50,54 54,35 58,35 C61,35 60,48 64,48 C68,48 72,36 75,38 C78,40 77,49 82,47 C87,45 93,22 90,15 C87,10 82,35 84,65 C85,72 78,60 95,48 C108,39 122,33 135,28" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="72" cy="28" r="1.2" fill="#111827"/></svg>`;
 
-export const SAMPLE_SIGNATURE_PEMBUAT = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="70" viewBox="0 0 160 70"><path d="M25,50 L28,20 L40,48 L52,22 L55,45 C65,30 75,25 82,32 C88,38 80,48 72,42 C68,38 75,25 90,26 L135,26" fill="none" stroke="%23111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const svgPembuatRaw = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="75" viewBox="0 0 160 75"><path d="M28,58 L30,22 L46,55 L50,18 M68,26 C60,30 54,48 60,54 C66,58 76,40 74,28 C72,20 65,35 66,52 C67,62 78,56 84,44 C88,36 82,28 78,34 C74,40 80,50 92,45 C106,39 125,28 145,18" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+export const SAMPLE_SIGNATURE_MENGETAHUI = `data:image/svg+xml;utf8,${encodeURIComponent(svgMengetahuiRaw)}`;
+
+export const SAMPLE_SIGNATURE_PEMBUAT = `data:image/svg+xml;utf8,${encodeURIComponent(svgPembuatRaw)}`;
 
 // Official Ministry Logo SVG (Garuda / Pengayoman emblem style)
-export const LOGO_KEMENKUM_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="46" fill="%23f8fafc" stroke="%231e3a8a" stroke-width="3"/>
-  <circle cx="50" cy="50" r="41" fill="none" stroke="%23b45309" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <path d="M50,18 L53,28 L63,28 L55,34 L58,44 L50,38 L42,44 L45,34 L37,28 L47,28 Z" fill="%23d97706"/>
-  <path d="M30,48 C30,68 50,78 50,78 C50,78 70,68 70,48 C70,42 50,40 50,40 C50,40 30,42 30,48 Z" fill="%231e3a8a" stroke="%23b45309" stroke-width="1.5"/>
-  <path d="M42,56 L47,61 L58,50" fill="none" stroke="%23ffffff" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="50" y="90" font-size="6.5" font-weight="bold" fill="%231e3a8a" text-anchor="middle" font-family="Arial, sans-serif">PENGAYOMAN</text>
+const svgLogoRaw = `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="46" fill="#f8fafc" stroke="#1e3a8a" stroke-width="3"/>
+  <circle cx="50" cy="50" r="41" fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <path d="M50,18 L53,28 L63,28 L55,34 L58,44 L50,38 L42,44 L45,34 L37,28 L47,28 Z" fill="#d97706"/>
+  <path d="M30,48 C30,68 50,78 50,78 C50,78 70,68 70,48 C70,42 50,40 50,40 C50,40 30,42 30,48 Z" fill="#1e3a8a" stroke="#b45309" stroke-width="1.5"/>
+  <path d="M42,56 L47,61 L58,50" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="50" y="90" font-size="6.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle" font-family="Arial, sans-serif">PENGAYOMAN</text>
 </svg>`;
+
+export const LOGO_KEMENKUM_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(svgLogoRaw)}`;
 
 export const SAMPLE_LAPORAN_APEL_PDF: LaporanApelData = {
   judulBaris1: 'SURAT KETERANGAN',
@@ -96,7 +102,7 @@ export const SAMPLE_LAPORAN_APEL_PDF: LaporanApelData = {
       no: 8,
       nip: '196908132001121001',
       nama: 'SYAHRIZAL LUBIS, S.H., M.H.',
-      jabatan: 'KEPALA SUBBAG TATA USAHA',
+      jabatan: 'KEPALA SUBBAG TATA USAHA INSPEKTORAT WILAYAH IV',
       alasan: 'KLARIFIKASI PENGADUAN',
     },
   ],
@@ -109,7 +115,7 @@ export const SAMPLE_LAPORAN_APEL_PDF: LaporanApelData = {
     signatureImage: SAMPLE_SIGNATURE_MENGETAHUI,
   },
   petugasPembuat: {
-    jabatan: 'Pembuat Laporan',
+    jabatan: '',
     nama: 'Naufal Enji Athaya',
     nip: '2002043020506103',
     signatureImage: SAMPLE_SIGNATURE_PEMBUAT,

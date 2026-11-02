@@ -335,7 +335,8 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
   });
 
   const tableRekap = new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+    width: { size: 95, type: WidthType.PERCENTAGE },
+    indent: { size: 425, type: WidthType.DXA },
     rows: [rekapRow1, rekapRow2, rekapDataRow],
   });
 
@@ -507,7 +508,8 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
   }
 
   const tableAsn = new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+    width: { size: 95, type: WidthType.PERCENTAGE },
+    indent: { size: 425, type: WidthType.DXA },
     rows: tableAsnRows,
   });
 
@@ -558,6 +560,8 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
     ],
   });
 
+  const hasJabatanPembuat = Boolean(data.petugasPembuat.jabatan && data.petugasPembuat.jabatan.trim());
+
   const sigRow2 = new TableRow({
     children: [
       new TableCell({
@@ -570,7 +574,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
           new Paragraph({
             children: [
               new TextRun({
-                text: data.petugasPembuat.jabatan || 'Pembuat Laporan,',
+                text: data.petugasPembuat.jabatan,
                 font: 'Arial',
                 size: 22,
               }),
@@ -633,8 +637,6 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
             children: [
               new TextRun({
                 text: data.pejabatMengetahui.nama,
-                bold: true,
-                underline: {},
                 font: 'Arial',
                 size: 22,
               }),
@@ -649,8 +651,6 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
             children: [
               new TextRun({
                 text: data.petugasPembuat.nama,
-                bold: true,
-                underline: {},
                 font: 'Arial',
                 size: 22,
               }),
@@ -694,8 +694,13 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
     ],
   });
 
+  const sigRows = hasJabatanPembuat
+    ? [sigRow1, sigRow2, sigRow3, sigRow4, sigRow5]
+    : [sigRow1, sigRow3, sigRow4, sigRow5];
+
   const tableSignature = new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+    width: { size: 90, type: WidthType.PERCENTAGE },
+    indent: { size: 720, type: WidthType.DXA },
     borders: {
       top: borderNone,
       bottom: borderNone,
@@ -704,12 +709,12 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       insideHorizontal: borderNone,
       insideVertical: borderNone,
     },
-    rows: [sigRow1, sigRow2, sigRow3, sigRow4, sigRow5],
+    rows: sigRows,
   });
 
   // Section Children
   const docChildren: (Paragraph | Table)[] = [
-    // Judul Dokumen (Centered Bold)
+    // Judul Dokumen (Centered Bold, Arial 11pt sesuai lampiran PDF)
     new Paragraph({
       alignment: AlignmentType.CENTER,
       children: [
@@ -717,7 +722,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
           text: data.judulBaris1 || 'SURAT KETERANGAN',
           bold: true,
           font: 'Arial',
-          size: 24, // 12pt
+          size: 22, // 11pt
         }),
       ],
     }),
@@ -728,7 +733,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
           text: data.judulBaris2 || 'LAPORAN KEHADIRAN ASN ITWIL IV',
           bold: true,
           font: 'Arial',
-          size: 23,
+          size: 22,
         }),
       ],
     }),
@@ -739,7 +744,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
           text: data.satuanKerja || 'INSPEKTORAT JENDERAL KEMENTERIAN HUKUM',
           bold: true,
           font: 'Arial',
-          size: 23,
+          size: 22,
         }),
       ],
     }),
@@ -751,7 +756,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
           text: dateFormattedUpper,
           bold: true,
           font: 'Arial',
-          size: 23,
+          size: 22,
         }),
       ],
     }),
@@ -761,7 +766,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       spacing: { before: 180, after: 100 },
       children: [
         new TextRun({
-          text: 'I.  REKAPITULASI KEHADIRAN APEL',
+          text: 'I.   REKAPITULASI KEHADIRAN APEL',
           bold: true,
           font: 'Arial',
           size: 22,
@@ -775,7 +780,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
       spacing: { before: 240, after: 100 },
       children: [
         new TextRun({
-          text: 'II. DAFTAR ASN YANG TIDAK HADIR APEL',
+          text: 'II.  DAFTAR ASN YANG TIDAK HADIR APEL',
           bold: true,
           font: 'Arial',
           size: 22,
@@ -784,15 +789,16 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
     }),
     tableAsn,
 
-    // Paragraf Penutup (Justified, Indent 720 dxa = 0.5 inch)
+    // Paragraf Penutup (Justified, Indent Left 425 dxa + First Line 709 dxa)
     new Paragraph({
       alignment: AlignmentType.JUSTIFIED,
-      indent: { firstLine: 720 },
-      spacing: { before: 260, after: 360, line: 280 },
+      indent: { left: 425, firstLine: 709 },
+      spacing: { before: 260, after: 480, line: 280 },
       children: [
         new TextRun({
           text: penutupText,
-          font: 'Arial', size: 22,
+          font: 'Arial',
+          size: 22,
         }),
       ],
     }),
@@ -813,7 +819,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
             text: 'LAMPIRAN DOKUMENTASI KEGIATAN',
             bold: true,
             font: 'Arial',
-            size: 24,
+            size: 22,
           }),
         ],
       })
@@ -842,7 +848,8 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
             new TextRun({
               text: foto.caption || 'Dokumentasi Pelaksanaan Kegiatan',
               italics: true,
-              font: 'Arial', size: 22,
+              font: 'Arial',
+              size: 22,
             }),
           ],
         })
@@ -850,7 +857,7 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
     }
   }
 
-  // Build full Document
+  // Build full Document with standard Word A4 2.54cm (1440 twips) margins
   const doc = new Document({
     styles: {
       default: {
@@ -871,10 +878,10 @@ export async function exportLaporanApelToDocx(data: LaporanApelData) {
               height: 16838, // A4 Height in twips (297mm)
             },
             margin: {
-              top: 1417, // 2.5 cm
-              bottom: 1134, // 2.0 cm
-              left: 1417, // 2.5 cm
-              right: 1134, // 2.0 cm
+              top: 1440, // 2.54 cm (1 inch - Standar Word sesuai lampiran PDF)
+              bottom: 1440, // 2.54 cm
+              left: 1440, // 2.54 cm
+              right: 1440, // 2.54 cm
             },
           },
         },

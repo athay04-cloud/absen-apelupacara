@@ -23,11 +23,12 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
 }) => {
   return (
     <div
+      id="preview-scale-wrapper"
       style={{
         transform: `scale(${scale})`,
         transformOrigin: 'top center',
       }}
-      className="transition-transform duration-150"
+      className="print-reset transition-transform duration-150"
     >
       {/* A4 Paper Container */}
       <div
@@ -36,7 +37,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
         style={{
           width: '210mm',
           minHeight: '297mm',
-          padding: '25mm 20mm 20mm 25mm', // Margins: Top 2.5cm, Right 2.0cm, Bottom 2.0cm, Left 2.5cm
+          padding: '25.4mm 25.4mm 25.4mm 25.4mm', // Standar Margin Word A4 (2.54 cm / 1 inch di keempat sisi sesuai lampiran PDF)
           boxSizing: 'border-box',
           fontFamily: 'Arial, Helvetica, sans-serif',
           fontSize: '11pt',
@@ -60,9 +61,10 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
   const formalDateHeader = formatFormalApelHeader(data.jenisApel, data.tanggal);
   const defaultPenutup = `Demikian laporan kehadiran ASN ${data.pokja || 'POKJA SDM'} pada ${data.jenisApel || 'Apel Pagi'} hari ${getDayNameIndo(data.tanggal)}, tanggal ${formatIndonesianDate(data.tanggal, false)} ini kami susun dengan sebenar-benarnya sebagai bentuk pertanggungjawaban atas pelaksanaan kegiatan. Laporan ini dibuat sebelum pukul ${data.jamBatasLaporan || '10.00 pagi'} sesuai dengan ketentuan yang berlaku. Atas perhatian dan kerja sama yang baik, kami ucapkan terima kasih.`;
   const penutupText = data.kalimatPenutup.trim() ? data.kalimatPenutup : defaultPenutup;
+  const hasJabatanPembuat = Boolean(data.petugasPembuat.jabatan && data.petugasPembuat.jabatan.trim());
 
   return (
-    <div className="text-black space-y-4">
+    <div className="text-black" style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '11pt' }}>
       {/* Optional Kop Surat */}
       {data.tampilkanKop && (
         <KopSurat
@@ -71,174 +73,265 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
         />
       )}
 
-      {/* Header Dokumen (Centered, Bold) */}
-      <div className="text-center font-bold tracking-tight mb-4">
-        <h1 className="text-[12.5pt] uppercase leading-tight">
+      {/* Header Dokumen (Centered, Bold, Arial 11pt sesuai lampiran PDF) */}
+      <div className="text-center font-bold mb-6 leading-[1.35]">
+        <div className="text-[11pt] uppercase">
           {data.judulBaris1 || 'SURAT KETERANGAN'}
-        </h1>
-        <h2 className="text-[12pt] uppercase leading-tight mt-0.5">
+        </div>
+        <div className="text-[11pt] uppercase">
           {data.judulBaris2 || 'LAPORAN KEHADIRAN ASN ITWIL IV'}
-        </h2>
-        <h2 className="text-[12pt] uppercase leading-tight mt-0.5">
+        </div>
+        <div className="text-[11pt] uppercase">
           {data.satuanKerja || 'INSPEKTORAT JENDERAL KEMENTERIAN HUKUM'}
-        </h2>
-        <h3 className="text-[11.5pt] uppercase leading-tight mt-1">
+        </div>
+        <div className="text-[11pt] uppercase">
           {formalDateHeader}
-        </h3>
+        </div>
       </div>
 
       {/* Bagian I: REKAPITULASI KEHADIRAN APEL */}
-      <div className="space-y-1.5 pt-1">
-        <h3 className="font-bold text-[11pt]">I. REKAPITULASI KEHADIRAN APEL</h3>
+      <div className="mb-6">
+        <div className="font-bold text-[11pt] mb-1.5 flex items-baseline">
+          <span className="inline-block w-[7.5mm] shrink-0">I.</span>
+          <span>REKAPITULASI KEHADIRAN APEL</span>
+        </div>
 
-        {/* Tabel Rekapitulasi */}
-        <table className="official-table w-full border-collapse text-center text-[11pt]" style={{ border: '1px solid black' }}>
-          <thead>
-            <tr className="font-bold">
-              <th rowSpan={2} className="px-2 py-1.5 align-middle w-[14%]" style={{ border: '1px solid black' }}>
-                Jumlah<br />ASN
-              </th>
-              <th rowSpan={2} className="px-2 py-1.5 align-middle w-[13%]" style={{ border: '1px solid black' }}>
-                Hadir
-              </th>
-              <th colSpan={4} className="px-2 py-1 align-middle" style={{ border: '1px solid black' }}>
-                Tidak Hadir Karena:
-              </th>
-              <th rowSpan={2} className="px-2 py-1.5 align-middle w-[26%]" style={{ border: '1px solid black' }}>
-                Keterangan
-              </th>
-            </tr>
-            <tr className="font-bold">
-              <th className="px-1.5 py-1 w-[11%]" style={{ border: '1px solid black' }}>Sakit</th>
-              <th className="px-1.5 py-1 w-[11%]" style={{ border: '1px solid black' }}>Cuti</th>
-              <th className="px-1.5 py-1 w-[13%]" style={{ border: '1px solid black' }}>
-                Dinas<br />Luar
-              </th>
-              <th className="px-1.5 py-1 w-[12%]" style={{ border: '1px solid black' }}>Lain-Lain</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="h-10 text-center font-medium">
-              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.jumlahAsn}</td>
-              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.hadir}</td>
-              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.sakit}</td>
-              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.cuti}</td>
-              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.dinasLuar}</td>
-              <td className="px-2 py-1.5" style={{ border: '1px solid black' }}>{data.rekap.lainLain}</td>
-              <td className="px-2 py-1.5 uppercase font-medium text-[10pt] leading-tight" style={{ border: '1px solid black' }}>
-                {data.rekap.keterangan || '-'}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        {/* Tabel Rekapitulasi (Indented sejajar dengan teks judul bab sesuai PDF) */}
+        <div className="pl-[7.5mm]">
+          <table
+            className="official-table w-full border-collapse text-center text-[11pt]"
+            style={{ border: '1px solid black' }}
+          >
+            <thead>
+              <tr className="font-bold">
+                <th
+                  rowSpan={2}
+                  className="px-2 py-1.5 align-top w-[13%]"
+                  style={{ border: '1px solid black' }}
+                >
+                  Jumlah<br />ASN
+                </th>
+                <th
+                  rowSpan={2}
+                  className="px-2 py-1.5 align-top w-[14%]"
+                  style={{ border: '1px solid black' }}
+                >
+                  Hadir
+                </th>
+                <th
+                  colSpan={4}
+                  className="px-2 py-1 align-top"
+                  style={{ border: '1px solid black' }}
+                >
+                  Tidak Hadir Karena:
+                </th>
+                <th
+                  rowSpan={2}
+                  className="px-2 py-1.5 align-top w-[17%]"
+                  style={{ border: '1px solid black' }}
+                >
+                  Keterangan
+                </th>
+              </tr>
+              <tr className="font-bold">
+                <th className="px-1.5 py-1.5 align-top w-[13%]" style={{ border: '1px solid black' }}>
+                  Sakit
+                </th>
+                <th className="px-1.5 py-1.5 align-top w-[14%]" style={{ border: '1px solid black' }}>
+                  Cuti
+                </th>
+                <th className="px-1.5 py-1.5 align-top w-[14%]" style={{ border: '1px solid black' }}>
+                  Dinas<br />Luar
+                </th>
+                <th className="px-1.5 py-1.5 align-top w-[15%]" style={{ border: '1px solid black' }}>
+                  Lain-Lain
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="text-center font-normal">
+                <td className="px-2 py-4 align-middle" style={{ border: '1px solid black' }}>
+                  {data.rekap.jumlahAsn}
+                </td>
+                <td className="px-2 py-4 align-middle" style={{ border: '1px solid black' }}>
+                  {data.rekap.hadir}
+                </td>
+                <td className="px-2 py-4 align-middle" style={{ border: '1px solid black' }}>
+                  {data.rekap.sakit}
+                </td>
+                <td className="px-2 py-4 align-middle" style={{ border: '1px solid black' }}>
+                  {data.rekap.cuti}
+                </td>
+                <td className="px-2 py-4 align-middle" style={{ border: '1px solid black' }}>
+                  {data.rekap.dinasLuar}
+                </td>
+                <td className="px-2 py-4 align-middle" style={{ border: '1px solid black' }}>
+                  {data.rekap.lainLain}
+                </td>
+                <td
+                  className="px-2 py-2 align-middle uppercase text-[10.5pt] leading-snug"
+                  style={{ border: '1px solid black' }}
+                >
+                  {data.rekap.keterangan || '-'}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Bagian II: DAFTAR ASN YANG TIDAK HADIR APEL */}
-      <div className="space-y-1.5 pt-2">
-        <h3 className="font-bold text-[11pt]">II. DAFTAR ASN YANG TIDAK HADIR APEL</h3>
+      <div className="mb-4">
+        <div className="font-bold text-[11pt] mb-1.5 flex items-baseline">
+          <span className="inline-block w-[7.5mm] shrink-0">II.</span>
+          <span>DAFTAR ASN YANG TIDAK HADIR APEL</span>
+        </div>
 
-        <table className="official-table w-full border-collapse text-[10.5pt]" style={{ border: '1px solid black' }}>
-          <thead>
-            <tr className="font-bold text-center">
-              <th className="px-2 py-1.5 w-[6%]" style={{ border: '1px solid black' }}>No</th>
-              <th className="px-2 py-1.5 w-[25%]" style={{ border: '1px solid black' }}>NIP</th>
-              <th className="px-2 py-1.5 w-[28%]" style={{ border: '1px solid black' }}>NAMA</th>
-              <th className="px-2 py-1.5 w-[19%]" style={{ border: '1px solid black' }}>JABATAN</th>
-              <th className="px-2 py-1.5 w-[22%]" style={{ border: '1px solid black' }}>
-                ALASAN<br />KETIDAKHADIRAN
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.daftarTidakHadir.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="px-3 py-3 text-center italic text-gray-500" style={{ border: '1px solid black' }}>
-                  Nihil (Seluruh ASN hadir mengikuti apel)
-                </td>
+        <div className="pl-[7.5mm]">
+          <table
+            className="official-table w-full border-collapse text-[11pt]"
+            style={{ border: '1px solid black' }}
+          >
+            <thead>
+              <tr className="font-bold text-center">
+                <th className="px-1.5 py-2 align-middle w-[7%]" style={{ border: '1px solid black' }}>
+                  No
+                </th>
+                <th className="px-2 py-2 align-middle w-[31%]" style={{ border: '1px solid black' }}>
+                  NIP
+                </th>
+                <th className="px-2 py-2 align-middle w-[22%]" style={{ border: '1px solid black' }}>
+                  NAMA
+                </th>
+                <th className="px-2 py-2 align-middle w-[18%]" style={{ border: '1px solid black' }}>
+                  JABATAN
+                </th>
+                <th className="px-2 py-1.5 align-middle w-[22%]" style={{ border: '1px solid black' }}>
+                  ALASAN<br />KETIDAKHADIRAN
+                </th>
               </tr>
-            ) : (
-              data.daftarTidakHadir.map((asn, idx) => (
-                <tr key={asn.id || idx} className="align-middle">
-                  <td className="px-1.5 py-1.5 text-center" style={{ border: '1px solid black' }}>{idx + 1}.</td>
-                  <td className="px-2 py-1.5 text-center font-mono text-[10pt]" style={{ border: '1px solid black' }}>
-                    {asn.nip}
-                  </td>
-                  <td className="px-2 py-1.5 font-medium uppercase text-[10pt] leading-snug" style={{ border: '1px solid black' }}>
-                    {asn.nama}
-                  </td>
-                  <td className="px-2 py-1.5 uppercase text-[10pt] leading-snug" style={{ border: '1px solid black' }}>
-                    {asn.jabatan}
-                  </td>
-                  <td className="px-2 py-1.5 uppercase text-center text-[10pt] leading-snug" style={{ border: '1px solid black' }}>
-                    {asn.alasan}
+            </thead>
+            <tbody>
+              {data.daftarTidakHadir.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="px-3 py-4 text-center italic text-gray-600"
+                    style={{ border: '1px solid black' }}
+                  >
+                    Nihil (Seluruh ASN hadir mengikuti apel)
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                data.daftarTidakHadir.map((asn, idx) => (
+                  <tr key={asn.id || idx} className="page-break-inside-avoid">
+                    <td
+                      className="px-1.5 py-2.5 text-center align-top text-[11pt]"
+                      style={{ border: '1px solid black' }}
+                    >
+                      {idx + 1}.
+                    </td>
+                    <td
+                      className="px-2 py-2.5 text-center align-middle text-[11pt]"
+                      style={{
+                        border: '1px solid black',
+                        fontFamily: 'Arial, Helvetica, sans-serif',
+                      }}
+                    >
+                      {asn.nip}
+                    </td>
+                    <td
+                      className="px-2 py-2.5 text-left align-middle uppercase text-[9.5pt] leading-snug"
+                      style={{ border: '1px solid black' }}
+                    >
+                      {asn.nama}
+                    </td>
+                    <td
+                      className="px-2 py-2.5 text-left align-middle uppercase text-[9.5pt] leading-snug"
+                      style={{ border: '1px solid black' }}
+                    >
+                      {asn.jabatan}
+                    </td>
+                    <td
+                      className="px-2 py-2.5 text-center align-middle uppercase text-[9.5pt] leading-snug"
+                      style={{ border: '1px solid black' }}
+                    >
+                      {asn.alasan}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Kalimat Penutup */}
-      <div className="pt-2">
-        <p className="text-justify text-[11pt] indent-8 leading-relaxed font-normal">
+      {/* Kalimat Penutup (Indented sejajar dengan tabel sesuai lampiran PDF) */}
+      <div className="pl-[7.5mm] mt-4 mb-10">
+        <p
+          className="text-justify text-[11pt] leading-[1.35] font-normal"
+          style={{ textIndent: '12.5mm' }}
+        >
           {penutupText}
         </p>
       </div>
 
-      {/* Bagian Tanda Tangan 2 Kolom (Borderless) */}
-      {/* Bagian Tanda Tangan 2 Kolom (Borderless & Sejajar Sempurna) */}
-      <div className="pt-4 page-break-inside-avoid">
-        <table className="w-full border-collapse border-none text-[11pt]" style={{ border: 'none' }}>
+      {/* Bagian Tanda Tangan 2 Kolom (Borderless & Sejajar Sempurna sesuai Hal. 2 Lampiran PDF) */}
+      <div className="pl-[14mm] page-break-inside-avoid">
+        <table
+          className="w-full border-collapse border-none text-[11pt]"
+          style={{ border: 'none' }}
+        >
           <tbody>
-            {/* Baris 1: Header Jabatan Kiri vs Tempat/Tanggal Kanan */}
+            {/* Baris 1: Mengetahui, vs Jakarta, [Tanggal] */}
             <tr>
-              <td className="w-1/2 pr-4 border-none align-bottom pb-0.5">
+              <td className="w-[55%] pr-4 border-none align-top pb-0.5">
                 <p className="font-normal">{data.pejabatMengetahui.jabatan || 'Mengetahui,'}</p>
               </td>
-              <td className="w-1/2 pl-4 border-none align-bottom pb-0.5">
+              <td className="w-[45%] pl-4 border-none align-top pb-0.5">
                 <p className="font-normal">
                   {formatSignatureDate(data.kotaTtd, data.tanggal)}
                 </p>
               </td>
             </tr>
 
-            {/* Baris 2: Sub-jabatan Pembuat Laporan (Sejajar) */}
-            <tr>
-              <td className="w-1/2 pr-4 border-none align-top pb-1">
-                {/* Spacing sejajar dengan jabatan kanan */}
-                <p className="font-normal select-none opacity-0 leading-tight">Mengetahui</p>
-              </td>
-              <td className="w-1/2 pl-4 border-none align-top pb-1">
-                <p className="font-normal leading-tight">{data.petugasPembuat.jabatan || 'Pembuat Laporan,'}</p>
-              </td>
-            </tr>
+            {/* Baris 2 (Opsional): Sub-jabatan Pembuat Laporan jika diisi */}
+            {hasJabatanPembuat && (
+              <tr>
+                <td className="w-[55%] pr-4 border-none align-top pb-0.5">
+                  <span className="opacity-0 select-none">-</span>
+                </td>
+                <td className="w-[45%] pl-4 border-none align-top pb-0.5">
+                  <p className="font-normal">{data.petugasPembuat.jabatan}</p>
+                </td>
+              </tr>
+            )}
 
-            {/* Baris 3: Area Tanda Tangan (Tinggi sama persis & Sejajar Sempurna) */}
+            {/* Baris 3: Area Tanda Tangan (Tinggi sama persis & Sejajar Horizontal) */}
             <tr>
-              <td className="w-1/2 pr-4 border-none align-middle py-1">
-                <div className="h-16 flex items-center">
+              <td className="w-[55%] pr-4 border-none align-middle py-1">
+                <div className="h-[62px] flex items-center">
                   {data.pejabatMengetahui.signatureImage ? (
                     <img
                       src={data.pejabatMengetahui.signatureImage}
                       alt="Tanda Tangan Pejabat"
-                      className="max-h-16 max-w-[150px] object-contain"
+                      className="h-[58px] w-auto max-w-[155px] object-contain print-force-show"
                     />
                   ) : (
-                    <div className="h-16"></div>
+                    <div className="h-[58px]"></div>
                   )}
                 </div>
               </td>
-              <td className="w-1/2 pl-4 border-none align-middle py-1">
-                <div className="h-16 flex items-center">
+              <td className="w-[45%] pl-4 border-none align-middle py-1">
+                <div className="h-[62px] flex items-center">
                   {data.petugasPembuat.signatureImage ? (
                     <img
                       src={data.petugasPembuat.signatureImage}
                       alt="Tanda Tangan Petugas"
-                      className="max-h-16 max-w-[150px] object-contain"
+                      className="h-[58px] w-auto max-w-[155px] object-contain print-force-show"
                     />
                   ) : (
-                    <div className="h-16"></div>
+                    <div className="h-[58px]"></div>
                   )}
                 </div>
               </td>
@@ -246,13 +339,13 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
 
             {/* Baris 4: Nama Penandatangan (Sejajar Horizontal pada Garis yang Sama) */}
             <tr>
-              <td className="w-1/2 pr-4 border-none align-top pt-0.5">
-                <p className="font-bold underline leading-tight">
+              <td className="w-[55%] pr-4 border-none align-top pt-0.5">
+                <p className="font-normal leading-snug">
                   {data.pejabatMengetahui.nama}
                 </p>
               </td>
-              <td className="w-1/2 pl-4 border-none align-top pt-0.5">
-                <p className="font-bold underline leading-tight">
+              <td className="w-[45%] pl-4 border-none align-top pt-0.5">
+                <p className="font-normal leading-snug">
                   {data.petugasPembuat.nama}
                 </p>
               </td>
@@ -260,13 +353,13 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
 
             {/* Baris 5: NIP (Sejajar Horizontal pada Garis yang Sama) */}
             <tr>
-              <td className="w-1/2 pr-4 border-none align-top pt-0.5">
-                <p className="text-[10.5pt] text-gray-900 leading-tight">
+              <td className="w-[55%] pr-4 border-none align-top">
+                <p className="text-[11pt] text-black leading-snug">
                   NIP. {data.pejabatMengetahui.nip}
                 </p>
               </td>
-              <td className="w-1/2 pl-4 border-none align-top pt-0.5">
-                <p className="text-[10.5pt] text-gray-900 leading-tight">
+              <td className="w-[45%] pl-4 border-none align-top">
+                <p className="text-[11pt] text-black leading-snug">
                   NIP. {data.petugasPembuat.nip}
                 </p>
               </td>
@@ -277,7 +370,7 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
 
       {/* Lampiran Dokumentasi Kegiatan (jika ada) */}
       {data.dokumentasi.length > 0 && (
-        <div className="pt-8 border-t border-dashed border-gray-300 page-break-before-always">
+        <div className="pt-8 mt-8 border-t border-dashed border-gray-300 page-break-before-always">
           <h4 className="font-bold text-center uppercase tracking-wide text-[11pt] mb-4">
             LAMPIRAN DOKUMENTASI KEGIATAN APEL
           </h4>
@@ -287,9 +380,9 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
                 <img
                   src={foto.dataUrl}
                   alt={`Dokumentasi ${i + 1}`}
-                  className="w-full h-40 object-cover border border-gray-200"
+                  className="w-full h-40 object-cover border border-gray-200 print-force-show"
                 />
-                <p className="text-[9pt] italic mt-1.5 text-gray-700">
+                <p className="text-[9.5pt] italic mt-1.5 text-gray-700">
                   {foto.keterangan || `Foto Kegiatan Apel #${i + 1}`}
                 </p>
               </div>
@@ -306,7 +399,7 @@ const LaporanApelPreview: React.FC<{ data: LaporanApelData }> = ({ data }) => {
 // ==========================================
 const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
   return (
-    <div className="text-black space-y-4">
+    <div className="text-black space-y-4" style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '11pt' }}>
       {/* Kop Surat Resmi */}
       <KopSurat
         namaInstansiBaris1={data.namaInstansiBaris1}
@@ -317,7 +410,7 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
 
       {/* Judul Notula */}
       <div className="text-center font-bold tracking-tight mb-4">
-        <h1 className="text-[13pt] uppercase underline leading-tight">
+        <h1 className="text-[12pt] uppercase underline leading-tight">
           {data.judulNotula || 'NOTULA RAPAT'}
         </h1>
         {data.subJudul && (
@@ -328,7 +421,7 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
       </div>
 
       {/* Tabel Metadata Rapat (Borderless) */}
-      <table className="w-full border-collapse border-none text-[10.5pt] mb-4">
+      <table className="w-full border-collapse border-none text-[11pt] mb-4">
         <tbody>
           <tr>
             <td className="w-[24%] py-0.5 font-bold border-none">Hari / Tanggal</td>
@@ -361,7 +454,7 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
       </table>
 
       {/* Uraian Notula */}
-      <div className="space-y-3 pt-2 text-[10.5pt]">
+      <div className="space-y-3 pt-2 text-[11pt]">
         <h3 className="font-bold uppercase tracking-tight text-[11pt] border-b border-black pb-1">
           URAIAN JALANNYA RAPAT
         </h3>
@@ -446,28 +539,28 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
             {/* Baris 3: Area Tanda Tangan (Tinggi sama persis & Sejajar) */}
             <tr>
               <td className="w-1/2 pr-4 border-none align-middle py-1">
-                <div className="h-16 flex items-center">
+                <div className="h-[62px] flex items-center">
                   {data.pimpinanRapat.signatureImage ? (
                     <img
                       src={data.pimpinanRapat.signatureImage}
                       alt="Tanda Tangan Pimpinan"
-                      className="max-h-16 max-w-[150px] object-contain"
+                      className="h-[58px] w-auto max-w-[155px] object-contain print-force-show"
                     />
                   ) : (
-                    <div className="h-16"></div>
+                    <div className="h-[58px]"></div>
                   )}
                 </div>
               </td>
               <td className="w-1/2 pl-4 border-none align-middle py-1">
-                <div className="h-16 flex items-center">
+                <div className="h-[62px] flex items-center">
                   {data.notulis.signatureImage ? (
                     <img
                       src={data.notulis.signatureImage}
                       alt="Tanda Tangan Notulis"
-                      className="max-h-16 max-w-[150px] object-contain"
+                      className="h-[58px] w-auto max-w-[155px] object-contain print-force-show"
                     />
                   ) : (
-                    <div className="h-16"></div>
+                    <div className="h-[58px]"></div>
                   )}
                 </div>
               </td>
@@ -490,12 +583,12 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
             {/* Baris 5: NIP (Sejajar Horizontal) */}
             <tr>
               <td className="w-1/2 pr-4 border-none align-top pt-0.5">
-                <p className="text-[10.5pt] text-gray-900 leading-tight">
+                <p className="text-[11pt] text-gray-900 leading-tight">
                   NIP. {data.pimpinanRapat.nip}
                 </p>
               </td>
               <td className="w-1/2 pl-4 border-none align-top pt-0.5">
-                <p className="text-[10.5pt] text-gray-900 leading-tight">
+                <p className="text-[11pt] text-gray-900 leading-tight">
                   NIP. {data.notulis.nip}
                 </p>
               </td>
@@ -516,9 +609,9 @@ const NotulaRapatPreview: React.FC<{ data: NotulaRapatData }> = ({ data }) => {
                 <img
                   src={foto.dataUrl}
                   alt={`Dokumentasi ${i + 1}`}
-                  className="w-full h-40 object-cover border border-gray-200"
+                  className="w-full h-40 object-cover border border-gray-200 print-force-show"
                 />
-                <p className="text-[9pt] italic mt-1.5 text-gray-700">
+                <p className="text-[9.5pt] italic mt-1.5 text-gray-700">
                   {foto.keterangan || `Dokumentasi Rapat #${i + 1}`}
                 </p>
               </div>
